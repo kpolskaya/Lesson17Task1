@@ -36,8 +36,31 @@ namespace Lesson17Task1
             InitializeComponent();
             textBindings = new ElementsModel();
             DataContext = textBindings;
+            PrepareToConnect();
+        }
+
+        private void PrepareToConnect()
+        {
+            //------------------------------- убрать
+            userId.Text = "user1";
+            userPassword.Password = "1234";
+            
             sqlConnection = new SqlConnection();
             oleDbConnection = new OleDbConnection();
+
+            sqlConnectionStringBuilder = new SqlConnectionStringBuilder()
+            {
+                DataSource = @"(localdb)\MSSQLLocalDB",
+                InitialCatalog = "CustomersDB",
+                IntegratedSecurity = false
+            };
+
+            oleDbConnectionStringBuilder = new OleDbConnectionStringBuilder()
+            {
+                Provider = "Microsoft.Jet.OLEDB.4.0",
+                DataSource = @"..\..\DB\OLE\Orders.mdb",
+            };
+            oleDbConnectionStringBuilder.Add("Jet OLEDB:System Database", @"..\..\DB\OLE\Security.mdw");
 
             sqlConnection.StateChange += (s, e) =>
             { textBindings.SqlConnectionState = (s as SqlConnection).State.ToString(); };
@@ -45,62 +68,53 @@ namespace Lesson17Task1
             oleDbConnection.StateChange += (s, e) =>
             { textBindings.OleConnectionState = (s as OleDbConnection).State.ToString(); };
 
-            //------------------------------- убрать
-            userId.Text = "user1";
-            userPassword.Password = "1234";
-
         }
 
-        private async void LoginButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private async Task ConnectToSqlDb()
         {
-            sqlConnectionStringBuilder = new SqlConnectionStringBuilder()
-            {
-                DataSource = @"(localdb)\MSSQLLocalDB",
-                //AttachDBFilename = @"C:\USERS\KPOLS\CUSTOMERSDB.MDF",
-                InitialCatalog = "CustomersDB",
-                IntegratedSecurity = false
-            };
             sqlConnectionStringBuilder["User Id"] = userId.Text;
+            sqlConnectionStringBuilder["Password"] = "****";
             textBindings.SqlPartialString = sqlConnectionStringBuilder.ConnectionString; //строка без пароля - для отображения в форме
             sqlConnectionStringBuilder["Password"] = userPassword.Password;
 
             if (sqlConnection.State != System.Data.ConnectionState.Closed)
                 sqlConnection.Close();
             sqlConnection.ConnectionString = sqlConnectionStringBuilder.ConnectionString;
-            try
-            {
-                await sqlConnection.OpenAsync();
-            }
-            catch (Exception ex)
-            {
+            await sqlConnection.OpenAsync();
+        }
 
-                MessageBox.Show("При подключении к базе SQL возникла ошибка: "+ex.Message);
-            }
-            //textBindings.SqlConnectionState = sqlConnection.State.ToString();
-
-            oleDbConnectionStringBuilder = new OleDbConnectionStringBuilder()
-            {
-                Provider = "Microsoft.Jet.OLEDB.4.0",
-                DataSource = @"..\..\DB\OLE\Orders.mdb",
-            };
-
-            oleDbConnectionStringBuilder.Add("Jet OLEDB:System Database", @"..\..\DB\OLE\Security.mdw");
+        private async Task ConnectToOleDb()
+        {
             oleDbConnectionStringBuilder.Add("User ID", userId.Text);
+            oleDbConnectionStringBuilder.Add("Password", "****");
             textBindings.OlePartialString = oleDbConnectionStringBuilder.ConnectionString;
             oleDbConnectionStringBuilder.Add("Password", userPassword.Password);
 
             if (oleDbConnection.State != System.Data.ConnectionState.Closed)
                 oleDbConnection.Close();
             oleDbConnection.ConnectionString = oleDbConnectionStringBuilder.ConnectionString;
+            await oleDbConnection.OpenAsync();
+        }
+
+        private async void LoginButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
             try
             {
-                await oleDbConnection.OpenAsync();
+                await ConnectToSqlDb();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("При подключении к базе SQL возникла ошибка: " + ex.Message);
+            }
+
+            try
+            {
+                await ConnectToOleDb();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("При подключении к базе OleDb возникла ошибка: " + ex.Message);
             }
-            //textBindings.OleConnectionState = oleDbConnection.State.ToString();
         }
 
         private void LogoutButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -108,21 +122,13 @@ namespace Lesson17Task1
             if (sqlConnection.State != System.Data.ConnectionState.Closed)
             {
                 sqlConnection.Close();
-                //textBindings.SqlConnectionState = sqlConnection.State.ToString();
             }
 
             if (oleDbConnection.State != System.Data.ConnectionState.Closed)
             {
                 oleDbConnection.Close();
-                //textBindings.OleConnectionState = oleDbConnection.State.ToString();
             }
         }
     }
-    // Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\KPOLS\SOURCE\REPOS\LESSON17TASK1\LESSON17TASK1\DB\SQL\CUSTOMERSDB.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
-    // Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Users\kpols\source\repos\Lesson17Task1\Lesson17Task1\DB\OLE\Orders.mdb;
-    // User ID=Kpols;Jet OLEDB:System database=C:\Users\kpols\source\repos\Lesson17Task1\Lesson17Task1\DB\OLE\Security.mdw
-
-    //Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\kpols\source\repos\Lesson17Task1\Lesson17Task1\DB\SQL\CustomersDB.mdf;
-    //Initial Catalog=C:\USERS\KPOLS\SOURCE\REPOS\LESSON17TASK1\LESSON17TASK1\DB\SQL\CUSTOMERSDB.MDF;
-    //Integrated Security=True;User ID=user1;Password=***********;Connect Timeout=30
+    
 }
