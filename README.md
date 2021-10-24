@@ -1,8 +1,8 @@
 # Lesson17Task1
-Перед первым запуском необходимо создать БД CustomersDB и преобразовать ее в contained database.
-На сервере должен быть разрешен режим contained database authentification. Пример скрипта, который
-создает БД и пользователя user1, пароль 1234 (есть в папке проекта DB\SQL\SQLQuery1.sql):
-------------------------------------------------------
+Перед первым запуском необходимо создать БД CustomersDB и преобразовать ее в *contained database*.
+На сервере должен быть разрешен режим *contained database authentification*. Пример скрипта, который
+создает БД и пользователя __user1__, пароль __1234__ (есть в папке проекта DB\SQL\SQLQuery1.sql):
+```TSQL 
 sp_configure 'show advanced options', 1
 GO
 RECONFIGURE
@@ -34,11 +34,10 @@ GO
 CREATE USER [user1]
 WITH PASSWORD='1234',
 DEFAULT_SCHEMA=[dbo]
-
 GO
 
 SELECT containment_desc FROM sys.databases
 WHERE name='CustomersDB'
---------------------------------------------------
-БД в формате Access находится в папке DB\OLE
-логин: user1 пароль: 1234 
+```
+БД в формате Access находится в папке DB\OLE\ 
+логин: __user1__ пароль: __1234__
