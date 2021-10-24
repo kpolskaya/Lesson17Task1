@@ -27,7 +27,7 @@
             <Label Content="Строка подключения: "></Label>
             <TextBlock x:Name="base1ConnectionInfo"
                        FontStyle="Italic" Margin="3" TextWrapping="Wrap"
-                       Text="{Binding Path=SqlPartialString}">
+                       Text="{Binding Path=SqlPublicString}">
             </TextBlock>
             <Label Content="Состояние подключения: " ></Label>
             <TextBlock x:Name="base1State"
@@ -39,7 +39,7 @@
             <Label Content="Строка подключения: "></Label>
             <TextBlock x:Name="base2ConnectionInfo"
                        FontStyle="Italic" Margin="3" TextWrapping="Wrap"
-                       Text="{Binding Path=OlePartialString}">
+                       Text="{Binding Path=OlePublicString}">
             </TextBlock>
             <Label Content="Состояние подключения: "></Label>
             <TextBlock x:Name="base2State" 

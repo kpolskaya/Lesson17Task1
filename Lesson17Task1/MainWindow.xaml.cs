@@ -28,7 +28,7 @@ namespace Lesson17Task1
         OleDbConnectionStringBuilder oleDbConnectionStringBuilder;
         OleDbConnection oleDbConnection;
 
-        ElementsModel textBindings; //контекст для текстовых информационных полей формы
+        ElementsModel textBindings; //контекст данных для текстовых информационных полей формы
       
         public MainWindow()
 
@@ -41,9 +41,9 @@ namespace Lesson17Task1
 
         private void PrepareToConnect()
         {
-            //------------------------------- убрать
-            userId.Text = "user1";
-            userPassword.Password = "1234";
+            // -------------- раскомментировать для автоматического ввода логина/пароля
+            //userId.Text = "user1";
+            //userPassword.Password = "1234";
             
             sqlConnection = new SqlConnection();
             oleDbConnection = new OleDbConnection();
@@ -74,7 +74,7 @@ namespace Lesson17Task1
         {
             sqlConnectionStringBuilder["User Id"] = userId.Text;
             sqlConnectionStringBuilder["Password"] = "****";
-            textBindings.SqlPartialString = sqlConnectionStringBuilder.ConnectionString; //строка без пароля - для отображения в форме
+            textBindings.SqlPublicString = sqlConnectionStringBuilder.ConnectionString; //строка без пароля - для отображения в форме
             sqlConnectionStringBuilder["Password"] = userPassword.Password;
 
             if (sqlConnection.State != System.Data.ConnectionState.Closed)
@@ -87,7 +87,7 @@ namespace Lesson17Task1
         {
             oleDbConnectionStringBuilder.Add("User ID", userId.Text);
             oleDbConnectionStringBuilder.Add("Password", "****");
-            textBindings.OlePartialString = oleDbConnectionStringBuilder.ConnectionString;
+            textBindings.OlePublicString = oleDbConnectionStringBuilder.ConnectionString;
             oleDbConnectionStringBuilder.Add("Password", userPassword.Password);
 
             if (oleDbConnection.State != System.Data.ConnectionState.Closed)

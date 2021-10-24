@@ -13,9 +13,9 @@ namespace Lesson17Task1
     public class ElementsModel : INotifyPropertyChanged
     {
         private string sqlConnectionState;
-        private string sqlPartialString;
+        private string sqlPublicString;
         private string oleConnectionState;
-        private string olePartialString;
+        private string olePublicString;
         
         public ElementsModel()
         {
@@ -58,15 +58,15 @@ namespace Lesson17Task1
         /// <summary>
         /// Отображаемая строка подключения к базе SQL
         /// </summary>
-        public string SqlPartialString
+        public string SqlPublicString
         {
-            get { return sqlPartialString; }
+            get { return sqlPublicString; }
             set
             {
-                if (sqlPartialString != value)
+                if (sqlPublicString != value)
                 {
-                    sqlPartialString = value;
-                    OnPropertyChanged(nameof(SqlPartialString));
+                    sqlPublicString = value;
+                    OnPropertyChanged(nameof(SqlPublicString));
                 }
             }
         }
@@ -74,15 +74,15 @@ namespace Lesson17Task1
         /// <summary>
         /// Отображаемая строка подключения к базе OLE
         /// </summary>
-        public string OlePartialString
+        public string OlePublicString
         {
-            get { return olePartialString; }
+            get { return olePublicString; }
             set
             {
-                if (olePartialString != value)
+                if (olePublicString != value)
                 {
-                    olePartialString = value;
-                    OnPropertyChanged(nameof(OlePartialString));
+                    olePublicString = value;
+                    OnPropertyChanged(nameof(OlePublicString));
                 }
             }
         }
