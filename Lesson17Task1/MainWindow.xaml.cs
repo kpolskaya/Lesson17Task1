@@ -42,8 +42,8 @@ namespace Lesson17Task1
         private void PrepareToConnect()
         {
             // -------------- раскомментировать для автоматического ввода логина/пароля
-            //userId.Text = "user1";
-            //userPassword.Password = "1234";
+            userId.Text = "user1";
+            userPassword.Password = "1234";
             
             sqlConnection = new SqlConnection();
             oleDbConnection = new OleDbConnection();
@@ -52,7 +52,8 @@ namespace Lesson17Task1
             {
                 DataSource = @"(localdb)\MSSQLLocalDB",
                 InitialCatalog = "CustomersDB",
-                IntegratedSecurity = false
+                IntegratedSecurity = false,
+                AttachDBFilename = @"DB\SQL\CUSTOMERSDB.MDF"
             };
 
             oleDbConnectionStringBuilder = new OleDbConnectionStringBuilder()
