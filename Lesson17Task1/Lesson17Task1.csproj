@@ -130,13 +130,6 @@
     <Content Include="DB\OLE\Orders.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DB\SQL\CustomersDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DB\SQL\CustomersDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>CustomersDB.mdf</DependentUpon>
-    </Content>
     <Content Include="DB\SQL\SQLQuery1.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

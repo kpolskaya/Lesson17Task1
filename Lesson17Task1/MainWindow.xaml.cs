@@ -52,8 +52,8 @@ namespace Lesson17Task1
             {
                 DataSource = @"(localdb)\MSSQLLocalDB",
                 InitialCatalog = "CustomersDB",
-                IntegratedSecurity = false,
-                AttachDBFilename = @"DB\SQL\CUSTOMERSDB.MDF"
+                IntegratedSecurity = false
+                //,AttachDBFilename = @"DB\SQL\CUSTOMERSDB.MDF"
             };
 
             oleDbConnectionStringBuilder = new OleDbConnectionStringBuilder()
